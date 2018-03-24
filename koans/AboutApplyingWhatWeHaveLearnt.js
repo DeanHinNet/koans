@@ -72,7 +72,7 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   /*********************************************************************************/
-   it("should count the ingredient occurrence (imperative)", function () {
+  it("should count the ingredient occurrence (imperative)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     for (i = 0; i < products.length; i+=1) {
@@ -82,24 +82,37 @@ describe("About Applying What We Have Learnt", function() {
     }
 
     expect(ingredientCount['mushrooms']).toBe(2);
+    //console.log(ingredientCount);
   });
-  // products = [
-  //      { name: "Sonoma", ingredients: ["artichoke", "sundried tomatoes", "mushrooms"], containsNuts: false },
-  //      { name: "Pizza Primavera", ingredients: ["roma", "sundried tomatoes", "goats cheese", "rosemary"], containsNuts: false },
-  //      { name: "South Of The Border", ingredients: ["black beans", "jalapenos", "mushrooms"], containsNuts: false },
-  //      { name: "Blue Moon", ingredients: ["blue cheese", "garlic", "walnuts"], containsNuts: true },
-  //      { name: "Taste Of Athens", ingredients: ["spinach", "kalamata olives", "sesame seeds"], containsNuts: true }
-  //   ];
+
+  products = [
+       { name: "Sonoma", ingredients: ["artichoke", "sundried tomatoes", "mushrooms"], containsNuts: false },
+       { name: "Pizza Primavera", ingredients: ["roma", "sundried tomatoes", "goats cheese", "rosemary"], containsNuts: false },
+       { name: "South Of The Border", ingredients: ["black beans", "jalapenos", "mushrooms"], containsNuts: false },
+       { name: "Blue Moon", ingredients: ["blue cheese", "garlic", "walnuts"], containsNuts: true },
+       { name: "Taste Of Athens", ingredients: ["spinach", "kalamata olives", "sesame seeds"], containsNuts: true }
+    ];
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
-    /* chain() together map(), flatten() and reduce() */
-    // ingredientcount = _(products).chain()
-    //                   .map();
-    
- 
-    console.log(ingredientCount);
+     ingredientCount = _(products).chain()
+                .map(function(x) { return x.ingredients })
+                .flatten()
+                .reduce(function(acc, ingredient) { 
+                 
+                  if(acc[ingredient]){
+                    acc[ingredient] += 1;
+                  } else {
+                    acc[ingredient] = 1;
+                  }
+                  return acc;
+                }
+                , {})
+                .value();
+        
+      
+              
     expect(ingredientCount['mushrooms']).toBe(2);
   });
 
